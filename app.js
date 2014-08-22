@@ -1,20 +1,35 @@
 'use strict';
 
-/*
+var mean = require('meanio');
+
+/**
  * Defining the Package
  */
-var Module = require('meanio').Module;
+var Module = mean.Module;
 
 var MeanSocket = new Module('mean-socket');
 
-/*
+/**
  * All MEAN packages require registration
  * Dependency injection is used to define required modules
  */
 MeanSocket.register(function(app, auth, database) {
+	
+console.log('\n*********\n*********\nMeanSocket Loaded\n*********\n*********\n');
 
+	var PORT = 8282;
+	var server = require('http').createServer(app);
+	var io = require('socket.io').listen(server);
+	server.listen(PORT, function() {
+		console.log('Chat now listening on port: ' + PORT + '\n');
+	});
+	mean.register("io", function(){
+		console.log('\n*********\n*********\nMeanSocket Injected\n*********\n*********\n');
+		return io;
+	});
+	
     //We enable routing. By default the Package Object is passed to the routes
-    MeanSocket.routes(app, auth, database);
+    MeanSocket.routes(app, auth, database, io);
 
     //We are adding a link to the main menu for all authenticated users
     MeanSocket.menus.add({
