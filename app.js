@@ -15,7 +15,7 @@ var MeanSocket = new Module('mean-socket');
  */
 MeanSocket.register(function(app, auth, database) {
 	
-	var PORT = 8282;
+	var PORT = 89;
 	var server = require('http').createServer(app);
 	var io = require('socket.io').listen(server);
 	server.listen(PORT, function() {
