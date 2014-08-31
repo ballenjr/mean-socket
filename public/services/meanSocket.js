@@ -1,6 +1,6 @@
 'use strict';
 
-var baseUrl = 'http://' + ws + '/';
+var baseUrl = 'http://' + location.hostname + ':89/';
 
 angular.module('mean.mean-socket').factory('MeanSocket', function($rootScope) {
 	var socket = io.connect(baseUrl);
