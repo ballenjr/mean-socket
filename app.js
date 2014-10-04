@@ -26,12 +26,12 @@ MeanSocket.register(function(app, auth, database) {
     MeanSocket.routes(app, auth, database, io);
 
     //We are adding a link to the main menu for all authenticated users
-    MeanSocket.menus.add({
-        title: 'Mean socket help page',
-        link: 'Mean socket help page',
-        roles: ['authenticated'],
-        menu: 'main'
-    });
+//    MeanSocket.menus.add({
+//        title: 'Mean socket help page',
+//        link: 'Mean socket help page',
+//        roles: ['authenticated'],
+//        menu: 'main'
+//    });
 
 
     // //Uncomment to use. Requires meanio@0.3.7 or above
