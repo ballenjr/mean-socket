@@ -1,9 +1,7 @@
 'use strict';
 
-var baseUrl = 'http://' + location.hostname + ':89/';
-
 angular.module('mean.mean-socket').factory('MeanSocket', ['$rootScope', function($rootScope) {
-    var socket = io.connect(baseUrl);
+    var socket = io.connect(location.origin.replace(location.port,8282), {secure:location.protocol == 'https:'});
     var ws = {
         on: function(eventName, callback) {
             socket.on(eventName, function() {
