@@ -1,11 +1,11 @@
 'use strict';
 
 // The Package is past automatically as first parameter
-module.exports = function(MeanSocket, http, https, httpsOptions) {
+module.exports = function(MeanSocket, app, http, https, httpsOptions) {
 
     var Q = require('q');
-    var express = require('express');
-    var app = express();
+    //var express = require('express');
+    //var app = express();
     var bodyParser = require('body-parser');
     var server = (!!https?require('http'):require('https'))
                  .createServer(app, (!!https?httpsOptions:null));
