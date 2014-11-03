@@ -1,12 +1,51 @@
 'use strict';
 
 // The Package is past automatically as first parameter
-module.exports = function(MeanSocket, app, auth, database, io) {
+module.exports = function(MeanSocket, http, https, httpsOptions) {
 
     var Q = require('q');
+    var express = require('express');
+    var app = express();
+    var bodyParser = require('body-parser');
+    var server = (!!https?require('http'):require('https'))
+                 .createServer(app, (!!https?httpsOptions:null));
+    var io = require('socket.io').listen(server);
     var moment = require('moment');
+    var PORT = 8282;
+
+    MeanSocket.io = io;
+    MeanSocket.port = PORT;
 
     var channelWatchList = [];
+
+    // parse application/x-www-form-urlencoded
+    app.use(bodyParser.urlencoded());
+
+    // parse application/json
+    app.use(bodyParser.json());
+
+    // parse application/vnd.api+json as json
+    app.use(bodyParser.json({
+        type: 'application/vnd.api+json'
+    }));
+
+    server.listen(PORT, function() {
+        console.log('Chat now listening on ' + (!!https?'secure ':'') + 'port: ' + PORT + '\n');
+    });
+
+    var allowCrossDomain = function(req, res, next) {
+        res.header('Access-Control-Allow-Origin', '*');
+        res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+        res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+
+        // intercept OPTIONS method
+        if ('OPTIONS' === req.method) {
+            res.send(200);
+        } else {
+            next();
+        }
+    };
+    app.use(allowCrossDomain);
 
     function getMessages(channel) {
         var deferred = Q.defer();
@@ -19,6 +58,17 @@ module.exports = function(MeanSocket, app, auth, database, io) {
 
         return deferred.promise;
     }
+
+    function removeKeys() {
+        // require(str)[removeOldMessages](function(cb) {
+        //     io.emit('message:remove:channel:' + channel, {
+        //         message: message,
+        //         channel: channel
+        //     });
+        // });
+    }
+
+    setInterval(removeKeys, 6000);
 
     io.on('connection', function(socket) {
         console.log('Chat - user connected');
