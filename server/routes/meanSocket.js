@@ -8,7 +8,7 @@ module.exports = function(MeanSocket, app, http, https, httpsOptions) {
     //var app = express();
     var bodyParser = require('body-parser');
     var server = (!!https?require('http'):require('https'))
-                 .createServer(app, (!!https?httpsOptions:null)); // Couldn't call listen again, can this be synces?
+                 .createServer(app, (!!https?httpsOptions:null)); // Couldn't call listen again, can this be synced?
     var io = require('socket.io').listen(server);
     var moment = require('moment');
     var PORT = 8282;
