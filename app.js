@@ -13,10 +13,10 @@ var MeanSocket = new Module('mean-socket');
  * All MEAN packages require registration
  * Dependency injection is used to define required modules
  */
-MeanSocket.register(function(app, auth, database) {
+MeanSocket.register(function(app, auth, database, https) {
 	
-	var io = require('socket.io').listen(89);
-	console.log('Chat now listening on port: 89\n');
+	var io = require('socket.io').listen(https);
+	console.log('Chat now listening on port:', MeanSocket.config.clean.https.port);
 
 	mean.register("io", function(){
 		return io;
